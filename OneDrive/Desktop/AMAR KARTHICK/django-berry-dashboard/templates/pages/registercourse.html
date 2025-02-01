@@ -1,0 +1,316 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Student Details {% endblock %}
+{% block content %}
+
+<div class="pc-container">
+    <div class="pc-content pt-2">
+        <div class="row justify-content-center">
+            <!-- First Card for User Details -->
+            <div class="col-xl-8 col-md-12">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <!-- First Row -->
+                        <div class="info-row">
+                            <div class="info-item">
+                                <div class="info-icon bg-primary">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Name</div>
+                                    <div class="info-value">{{ request.user.userprofile.first_name }}</div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon bg-success">
+                                    <i class="fas fa-id-card text-white"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Roll Number</div>
+                                    <div class="info-value">{{ request.user.userprofile.roll_number }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Second Row -->
+                        <div class="info-row">
+                            <div class="info-item">
+                                <div class="info-icon bg-danger">
+                                    <i class="fas fa-building text-white"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Department</div>
+                                    <div class="info-value">{{ request.user.userprofile.department }}</div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon bg-warning">
+                                    <i class="fas fa-university text-white"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Academic Status</div>
+                                    <div class="info-value">{{ request.user.userprofile.current_semester }}th Semester • {{ request.user.userprofile.year_of_study }}rd Year</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <h4 class="card-title mb-4">Core Courses</h4>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Course Code</Code></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Engineering Physics I</td>
+                                    <td>PHY101</td>
+                                </tr>
+                                <tr>
+                                    <td>Engineering Mathematics I</td>
+                                    <td>MTH101</td>
+                                </tr>
+                                <tr>
+                                    <td>Engineering Chemistry I</td>
+                                    <td>CHM101</td>
+                                </tr>
+                                <tr>
+                                    <td>Basics of Electronics Engineering</td>
+                                    <td>ELE101</td>
+                                </tr>
+                                <tr>
+                                    <td>Fundamentals of Computing</td>
+                                    <td>CSE101</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Card for Core Courses -->
+            <div class="col-xl-8 col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <h4 class="card-title mb-4">Elective Courses</h4>
+                        
+                        <div class="form-group mb-3">
+                            <label for="elective_course_1" class="form-label">Elective Course 1</label>
+                            <select id="elective_course_1" class="form-control" disabled>
+                                {% if elective_courses_1 %}
+                                    {% for course in elective_courses_1 %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No elective courses found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="elective_course_2" class="form-label">Elective Course 2</label>
+                            <select id="elective_course_2" class="form-control" disabled>
+                                {% if elective_courses_2 %}
+                                    {% for course in elective_courses_2 %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No elective courses found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-8 col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <h4 class="card-title mb-4">Open Elective Courses</h4>
+                        
+                        <div class="form-group">
+                            <label for="open_elective" class="form-label">Select Open Elective Course</label>
+                            <select id="open_elective" class="form-control" disabled>
+                                {% if open_elective_courses %}
+                                    {% for course in open_elective_courses %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No open elective courses found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-8 col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <h4 class="card-title mb-4">Honor Courses</h4>
+                        
+                        <h5 class="card-subtitle mb-3">Honor Course 1</h5>
+                        <div class="form-group">
+                            <select id="honor_course_1" class="form-control" disabled>
+                                {% if honor_course_1_options %}
+                                    {% for course in honor_course_1_options %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No Honor Course 1 options found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        
+                        <h5 class="card-subtitle mb-3 mt-4">Honor Course 2</h5>
+                        <div class="form-group">
+                            <select id="honor_course_2" class="form-control" disabled>
+                                {% if honor_course_2_options %}
+                                    {% for course in honor_course_2_options %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No Honor Course 2 options found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <h4 class="card-title mb-4">Minor Courses</h4>
+                        
+                        <h5 class="card-subtitle mb-3">Minor Course 1</h5>
+                        <div class="form-group">
+                            <select id="minor_course_1" class="form-control" disabled>
+                                {% if minor_course_1_options %}
+                                    {% for course in minor_course_1_options %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No Minor Course 1 options found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        
+                        <h5 class="card-subtitle mb-3 mt-4">Minor Course 2</h5>
+                        <div class="form-group">
+                            <select id="minor_course_2" class="form-control" disabled>
+                                {% if minor_course_2_options %}
+                                    {% for course in minor_course_2_options %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No Minor Course 2 options found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <h4 class="card-title mb-4">Add-on Course</h4>
+                        
+                        <div class="form-group">
+                            <select id="addon_course" class="form-control" disabled>
+                                {% if addon_course_options %}
+                                    {% for course in addon_course_options %}
+                                        <option>{{ course.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option>No Add-on Course options found</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+<style>
+.info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 8px;
+}
+
+.info-item {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: var(--pc-card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--pc-border);
+}
+
+.info-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin-right: 12px;
+    font-size: 1rem;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-label {
+    color: var(--pc-heading-color);
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    color: var(--pc-body-color);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.pc-content {
+    padding-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* Bootstrap color utilities if needed */
+.bg-primary { background-color: #4680ff !important; }
+.bg-success { background-color: #2ca87f !important; }
+.bg-danger { background-color: #d63384 !important; }
+.bg-warning { background-color: #f1c40f !important; }
+.text-white { color: white !important; }
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/dashboard-default.js' %}"></script>
+{% endblock %}

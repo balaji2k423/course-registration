@@ -1,0 +1,55 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fetchButton = document.createElement('button');
+        fetchButton.textContent = "Fetch Courses";
+        fetchButton.type = "button";
+        fetchButton.className = "button";
+        fetchButton.style.marginBottom = "10px";
+
+        const formElement = document.querySelector("#course-rule-form");
+        formElement.prepend(fetchButton);
+
+        fetchButton.addEventListener("click", function () {
+            const department = document.querySelector("#id_department").value;
+            const semester = document.querySelector("#id_semester").value;
+            const year = document.querySelector("#id_year").value;
+            const regulation = document.querySelector("#id_regulation").value;
+
+            if (!department || !semester || !year || !regulation) {
+                alert("Please fill all fields before fetching courses.");
+                return;
+            }
+
+            fetch(`/admin/app/courserule/filter_courses/?department=${department}&semester=${semester}&year=${year}&regulation=${regulation}`)
+                .then(response => response.json())
+                .then(data => {
+                    const coreCoursesSelect = document.querySelector("#id_core_courses");
+                    const electiveCoursesSelect = document.querySelector("#id_elective_courses");
+
+                    // Clear current options
+                    coreCoursesSelect.innerHTML = "";
+                    electiveCoursesSelect.innerHTML = "";
+
+                    // Populate Core Courses
+                    data.core_courses.forEach(course => {
+                        const option = document.createElement("option");
+                        option.value = course.id;
+                        option.textContent = course.name;
+                        coreCoursesSelect.appendChild(option);
+                    });
+
+                    // Populate Elective Courses
+                    data.elective_courses.forEach(course => {
+                        const option = document.createElement("option");
+                        option.value = course.id;
+                        option.textContent = course.name;
+                        electiveCoursesSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching courses:", error);
+                    alert("Failed to fetch courses. Please try again later.");
+                });
+        });
+    });
+</script>
